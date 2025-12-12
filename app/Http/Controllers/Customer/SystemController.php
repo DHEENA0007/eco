@@ -531,4 +531,49 @@ class SystemController extends Controller
         ];
     }
 
+    /**
+     * Save user location (pincode, latitude, longitude)
+     * Used for location-based product filtering
+     */
+    public function saveLocation(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'pincode' => 'required|string|max:10',
+                'latitude' => 'nullable|numeric',
+                'longitude' => 'nullable|numeric',
+            ]);
+
+            if (auth('customer')->check()) {
+                $user = auth('customer')->user();
+
+                $user->update([
+                    'pincode' => $request->pincode,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                ]);
+
+                // Store in session for quick access
+                session(['user_pincode' => $request->pincode]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Location saved successfully',
+                    'pincode' => $request->pincode
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ], 401);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to save location: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 }

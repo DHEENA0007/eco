@@ -47,6 +47,7 @@ class Shop extends Model
         'name',
         'slug',
         'address',
+        'pincode',
         'contact',
         'image',
         'image_storage_type',

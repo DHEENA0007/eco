@@ -20,7 +20,7 @@
                         </h6>
                         <div>
                             <ul class="option-select-btn custom_01_option flex-wrap weight-style--two gap-2 pt-2 p-1 flex-nowrap text-nowrap overflow-x-auto overflow-y-hidden scrollbar-none">
-                                @foreach (json_decode($productDetails->colors) as $key => $color)
+                                @foreach ((json_decode($productDetails->colors) ?? []) as $key => $color)
                                     <li>
                                         <label>
                                             <input type="radio" hidden=""
@@ -42,7 +42,7 @@
                     </div>
                     @endif
 
-                    @foreach (json_decode($productDetails->choice_options) as  $choice)
+                    @foreach ((json_decode($productDetails->choice_options) ?? []) as  $choice)
                     <div class="product-details-content">
                         <h6 class="fs-14 mb-2">{{ translate($choice->title) }}</h6>
                         <ul class="option-select-btn custom_01_option flex-wrap weight-style--two gap-2 p-1 flex-nowrap text-nowrap overflow-x-auto overflow-y-hidden scrollbar-none">

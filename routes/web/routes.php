@@ -359,6 +359,7 @@ Route::group(['namespace' => 'Customer', 'prefix' => 'customer', 'as' => 'custom
             Route::post('choose-shipping-address', 'getChooseShippingAddress')->name('choose-shipping-address');
             Route::post('choose-shipping-address-other', 'getChooseShippingAddressOther')->name('choose-shipping-address-other');
             Route::post('choose-billing-address', 'choose_billing_address')->name('choose-billing-address');
+            Route::post('save-location', 'saveLocation')->name('save-location');
         });
 
         Route::group(['prefix' => 'reward-points', 'as' => 'reward-points.', 'middleware' => ['auth:customer']], function () {

@@ -1993,6 +1993,14 @@ class ProductManager
                 return $query->active()->with(['setup']);
             }])
             ->withAvg('reviews', 'rating')
+            // Filter by user's pincode for location-based product display
+            ->when(auth('customer')->check() && auth('customer')->user()->pincode, function ($query) {
+                $userPincode = auth('customer')->user()->pincode;
+                return $query->whereHas('seller.shop', function ($shopQuery) use ($userPincode) {
+                    $shopQuery->where('pincode', $userPincode)
+                             ->orWhereNull('pincode'); // Show products from shops without pincode set
+                });
+            })
             ->when($productAddedBy == 'admin', function ($query) use ($productAddedBy) {
                 return $query->where(['added_by' => $productAddedBy]);
             })

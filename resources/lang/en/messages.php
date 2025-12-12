@@ -2564,4 +2564,16 @@ return [
 	"this_month" => "this month",
 	"this_year" => "this year",
 	"select_Date" => "select Date",
+	// Location-based filtering
+	"enable_location_services" => "Enable Location Services",
+	"find_products_near_you" => "Find Products Near You",
+	"allow_location_access_to_see_products_available_in_your_area" => "Allow location access to see products available in your area",
+	"detecting_your_location" => "Detecting your location",
+	"location_detected_successfully" => "Location detected successfully",
+	"pincode" => "Pincode",
+	"or_enter_pincode_manually" => "Or Enter Pincode Manually",
+	"enter_your_pincode" => "Enter your pincode",
+	"save" => "Save",
+	"allow_location_access" => "Allow Location Access",
+	"skip_for_now" => "Skip for now",
 ];

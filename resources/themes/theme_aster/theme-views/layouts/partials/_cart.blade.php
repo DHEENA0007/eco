@@ -56,9 +56,12 @@
                                         <?php
                                             $getProductCurrentStock = $product->current_stock;
                                             if(!empty($product->variation)) {
-                                                foreach(json_decode($product->variation, true) as $productVariantSingle) {
-                                                    if($productVariantSingle['type'] == $cartItem->variant) {
-                                                        $getProductCurrentStock = $productVariantSingle['qty'];
+                                                $variations = json_decode($product->variation, true);
+                                                if(is_array($variations)) {
+                                                    foreach($variations as $productVariantSingle) {
+                                                        if($productVariantSingle['type'] == $cartItem->variant) {
+                                                            $getProductCurrentStock = $productVariantSingle['qty'];
+                                                        }
                                                     }
                                                 }
                                             }

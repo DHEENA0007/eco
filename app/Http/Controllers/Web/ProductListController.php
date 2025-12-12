@@ -46,7 +46,7 @@ class ProductListController extends Controller
                 ]);
             }
             Toastr::error(translate('Minimum_price_should_be_less_than_or_equal_to_maximum_price.'));
-            redirect()->back();
+            return redirect()->back();
         }
 
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
@@ -93,7 +93,7 @@ class ProductListController extends Controller
                 ]);
             }
             Toastr::error(translate('Minimum_price_should_be_less_than_or_equal_to_maximum_price.'));
-            redirect()->back();
+            return redirect()->back();
         }
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $activeBrands = BrandManager::getActiveBrandWithCountingAndPriorityWiseSorting();
@@ -180,7 +180,7 @@ class ProductListController extends Controller
                 ]);
             }
             Toastr::error(translate('Minimum_price_should_be_less_than_or_equal_to_maximum_price.'));
-            redirect()->back();
+            return redirect()->back();
         }
 
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
@@ -415,7 +415,7 @@ class ProductListController extends Controller
                 ]);
             }
             Toastr::error(translate('Minimum_price_should_be_less_than_or_equal_to_maximum_price.'));
-            redirect()->back();
+            return redirect()->back();
         }
 
         if ($request->has('product_name') && $request['product_name'] != '') {

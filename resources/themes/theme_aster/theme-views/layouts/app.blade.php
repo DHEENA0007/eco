@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="robots" content="index, follow">
     <meta name="_token" content="{{csrf_token()}}">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="shortcut icon" href="{{$web_config['fav_icon']['path']}}"/>
 
     <link rel="stylesheet" href="{{ theme_asset('assets/css/fonts-init.css') }}"/>
@@ -143,6 +144,11 @@
 @include('theme-views.layouts.main-script')
 @include('theme-views.layouts._firebase-script')
 
+{{-- Location Permission Modal --}}
+@if(auth('customer')->check())
+    @include('theme-views.layouts.partials.modal._location-permission')
+@endif
+
 {!! Toastr::message() !!}
 <script>
     function route_alert(route, message) {
@@ -163,6 +169,12 @@
         })
     }
 </script>
+
+{{-- Location Service Script --}}
+@if(auth('customer')->check())
+    <script src="{{ theme_asset('assets/js/location-service.js') }}"></script>
+@endif
+
 @stack('script')
 
 </body>
