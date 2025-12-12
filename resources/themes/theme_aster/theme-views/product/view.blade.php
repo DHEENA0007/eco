@@ -19,6 +19,26 @@
         <section>
             <div class="container">
 
+                @if(request('data_from') == 'brand' && isset($data['brand']))
+                    <!-- Brand Banner -->
+                    <div class="card mb-3 text-white border-0 rounded-3 overflow-hidden" style="background: linear-gradient(45deg, #ff4500, #ffa500);">
+                        <div class="card-body py-4 position-relative">
+                            <div class="row align-items-center">
+                                <div class="col-md-2 text-center">
+                                    <img src="{{ getStorageImages(path: $data['brand']->image_full_url, type: 'brand') }}" alt="{{ $data['brand']->name }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                                </div>
+                                <div class="col-md-10">
+                                    <h2 class="mb-2 fw-bold">{{ $data['brand']->name }}</h2>
+                                    <p class="mb-0 fs-16">{{ translate('Explore all products from') }} {{ $data['brand']->name }}</p>
+                                    <div class="mt-2">
+                                        <span class="badge bg-white text-dark">{{ $products->total() }} {{ translate('products') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('products') }}" class="product-list-filter">
                     @csrf
                     <input hidden name="offer_type" value="{{ $data['offer_type'] }}">

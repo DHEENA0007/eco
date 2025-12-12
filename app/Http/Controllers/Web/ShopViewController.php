@@ -458,8 +458,10 @@ class ShopViewController extends Controller
 
         $categoryIds = [];
         foreach ($categoryInfoDecoded as $decoded) {
-            foreach ($decoded as $info) {
-                $categoryIds[] = $info['id'];
+            if (is_array($decoded)) {
+                foreach ($decoded as $info) {
+                    $categoryIds[] = $info['id'];
+                }
             }
         }
 

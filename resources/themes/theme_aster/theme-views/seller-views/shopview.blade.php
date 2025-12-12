@@ -28,7 +28,7 @@
     <meta property="twitter:description" content="{{ $web_config['meta_description'] }}">
 @endpush
 @section('content')
-    <main class="main-content d-flex flex-column gap-3 py-3">
+    <main class="main-content d-flex flex-column gap-3 py-3 mb-30">
 
         @include("theme-views.seller-views.partials._shop-main-banner-section", ['shopInfoArray' => $shopInfoArray])
 

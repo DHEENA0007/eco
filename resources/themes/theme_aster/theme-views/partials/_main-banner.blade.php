@@ -1,135 +1,214 @@
 @php
     use App\Utils\Helpers;
 @endphp
+<style>
+    .banner-slider-wrapper {
+        position: relative;
+    }
+
+    .banner-nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000 !important;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        pointer-events: auto;
+    }
+
+    .swiper {
+        z-index: 1;
+    }
+
+    .banner-nav-button:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .banner-nav-button i {
+        font-size: 20px;
+        color: #333;
+    }
+
+    .banner-nav-prev {
+        left: 30px;
+    }
+
+    .banner-nav-next {
+        right: 30px;
+    }
+
+    .banner-slider-wrapper .swiper-container {
+        position: relative;
+    }
+
+    .banner-cta-button {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        padding: 12px 30px;
+        background: var(--bs-primary);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        display: inline-block;
+    }
+
+    .banner-cta-button:hover {
+        background: var(--bs-primary);
+        color: #fff;
+        transform: translateX(-50%) translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+    }
+
+    /* Dark Theme Support */
+    [theme="dark"] .banner-nav-button {
+        background: rgba(45, 45, 45, 0.9);
+    }
+
+    [theme="dark"] .banner-nav-button:hover {
+        background: rgba(45, 45, 45, 1);
+    }
+
+    [theme="dark"] .banner-nav-button i {
+        color: #e0e0e0;
+    }
+
+    /* Dark Theme Support for CTA Button */
+    [theme="dark"] .banner-cta-button {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: #000000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 8px rgba(255, 215, 0, 0.3);
+    }
+
+    [theme="dark"] .banner-cta-button:hover {
+        background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+        color: #000000;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 215, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+        .banner-nav-button {
+            width: 35px;
+            height: 35px;
+        }
+
+        .banner-nav-button i {
+            font-size: 16px;
+        }
+
+        .banner-nav-prev {
+            left: 10px;
+        }
+
+        .banner-nav-next {
+            right: 10px;
+        }
+
+        .banner-cta-button {
+            bottom: 15px;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+    }
+</style>
+
 <section class="banner">
     <div class="container">
-        <div class="card moble-border-0">
-            <div class="p-0 p-sm-3 m-sm-1">
-                <div class="row g-3">
-                    <div class="col-xl-9">
-                        <div class="row g-2 g-sm-3 mt-lg-0">
-                            <div class="col-12">
-                                <div class="swiper-container shadow-sm rounded">
-                                    <div class="swiper" data-swiper-loop="true"
-                                         data-swiper-navigation-next="null" data-swiper-navigation-prev="null">
-                                        <div class="swiper-wrapper">
-                                            @foreach($bannerTypeMainBanner as $key=>$banner)
-                                                <div class="swiper-slide">
-                                                    <a href="{{ $banner['url'] }}" class="h-100">
-                                                        <img loading="lazy" alt="" class="dark-support rounded"
-                                                            src="{{ getStorageImages(path:$banner['photo_full_url'], type:'banner') }}">
-                                                    </a>
-                                                </div>
-                                            @endforeach
-                                            @if(count($bannerTypeMainBanner)==0)
-                                                <img src="{{ theme_asset('assets/img/placeholder/placeholder-2-1.png') }}"
-                                                     loading="lazy" alt="" class="dark-support rounded">
-                                            @endif
-                                        </div>
-                                        <div class="swiper-pagination"></div>
+        <div class="banner-slider-wrapper">
+            <div class="swiper-container shadow-sm rounded" style="aspect-ratio: 21/9; position: relative;">
+                <!-- Navigation Buttons -->
+                @if(isset($bannerTypeMainBanner) && count($bannerTypeMainBanner) >= 1)
+                    <button class="banner-nav-button banner-nav-prev" type="button" aria-label="{{ translate('Previous') }}">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="banner-nav-button banner-nav-next" type="button" aria-label="{{ translate('Next') }}">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                @endif
+
+                <div class="swiper banner-swiper" data-swiper-loop="true">
+                    <div class="swiper-wrapper">
+                        @if(isset($bannerTypeMainBanner) && count($bannerTypeMainBanner) > 0)
+                            @foreach($bannerTypeMainBanner as $key=>$banner)
+                                <div class="swiper-slide" data-banner-url="{{ $banner['url'] ?? '#' }}">
+                                    <div class="position-relative h-100">
+                                        <img loading="lazy" alt="{{ $banner['title'] ?? 'Banner' }}"
+                                             class="dark-support rounded w-100 h-100 object-fit-cover"
+                                             src="{{ getStorageImages(path: $banner['photo_full_url'] ?? null, type:'banner') }}">
+                                        @if(!empty($banner['url']))
+                                            <a href="{{ $banner['url'] }}" class="banner-cta-button">
+                                                {{ !empty($banner['button_text']) ? $banner['button_text'] : translate('Shop_Now') }}
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
-                            {{-- Commented out footer banners --}}
-                            {{-- @foreach($bannerTypeFooterBanner as $key=>$banner)
-                                <div class="col-6 d-none d-sm-block">
-                                    <a href="{{ $banner['url'] }}" class="ad-hover h-100">
-                                        <img src="{{  getStorageImages(path:$banner['photo_full_url'], type:'banner') }}"
-                                             loading="lazy" alt="" class="dark-support rounded w-100 img-fit">
-                                    </a>
-                                </div>
                             @endforeach
-                            @if(count($bannerTypeFooterBanner)==0)
-                                <div class="col-6 d-none d-sm-block">
-                                    <span class="ad-hover h-100">
-                                        <img src="{{ getStorageImages(path: null, type:'banner') }}"
-                                             loading="lazy" alt=""
-                                             class="dark-support rounded w-100 img-fit">
-                                    </span>
-                                </div>
-                                <div class="col-6 d-none d-sm-block">
-                                    <span class="ad-hover h-100">
-                                        <img src="{{ getStorageImages(path: null, type:'banner') }}"
-                                             loading="lazy" alt=""
-                                             class="dark-support rounded w-100 img-fit">
-                                    </span>
-                                </div>
-                            @endif
-                            @if(count($bannerTypeFooterBanner)==1)
-                                <div class="col-6 d-none d-sm-block">
-                                    <span class="ad-hover h-100">
-                                        <img src="{{ getStorageImages(path: null, type:'banner') }}"
-                                             loading="lazy" alt=""
-                                             class="dark-support rounded w-100">
-                                    </span>
-                                </div>
-                            @endif --}}
-                        </div>
-                    </div>
-
-                    @if(count($random_coupon)>0)
-                        <div class="col-xl-3 d-none d-sm-block">
-                            <div class="bg-primary-light rounded p-3 mt-lg-3">
-                                <h3 class="text-primary my-3">{{ translate('Happy_Club') }}</h3>
-                                <p>{{ translate('collect_coupons_from_stores_and_apply_to_get_special_discount_from_stores') }}</p>
-                                <div class="d-flex flex-wrap gap-3">
-                                    @foreach($random_coupon as $coupon)
-                                        <div
-                                            class="club-card card custom-border-color hover-shadow flex-grow-1 click-to-copy-code"
-                                            data-copy-code="{{ $coupon->code }}">
-                                            <div class="d-flex flex-column gap-2 p-3">
-                                                <h5 class="d-flex gap-2 align-items-center">
-                                                    @if($coupon->coupon_type == 'free_delivery')
-                                                        {{translate($coupon->coupon_type)}}
-                                                        <img src="{{ theme_asset('assets/img/svg/delivery-car.svg') }}"
-                                                             alt="" class="svg">
-                                                    @else
-                                                        {{ $coupon->discount_type == 'amount' ? webCurrencyConverter($coupon->discount) : $coupon->discount.'%'}}
-                                                        {{translate('off')}}
-                                                        <img src="{{ theme_asset('assets/img/svg/dollar.svg') }}" alt=""
-                                                             class="svg">
-                                                    @endif
-                                                </h5>
-                                                <h6 class="fs-12">
-                                                    <span class="text-muted">{{ translate('for') }}</span>
-                                                    <span class="text-uppercase ">
-                                                    @if($coupon->seller_id == '0')
-                                                            {{ translate('All_Shops') }}
-                                                        @elseif($coupon->seller_id == NULL)
-                                                            <a class="shop-name" href="{{route('shopView',['id'=>0])}}">
-                                                            {{ $web_config['company_name'] }}
-                                                        </a>
-                                                        @else
-                                                            <a class="shop-name get-view-by-onclick"
-                                                              data-link="{{isset($coupon->seller) ? route('shopView',['id'=>$coupon->seller->shop['id']]) : 'javascript:'}}">
-                                                            {{ isset($coupon->seller->shop) ? $coupon->seller->shop->name : translate('shop_not_found') }}
-                                                        </a>
-                                                        @endif
-                                                </span>
-                                                </h6>
-                                                <h6 class="text-primary fs-12">{{ translate('code').': ' }}{{ $coupon->code }}</h6>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                        @else
+                            <div class="swiper-slide">
+                                <img src="{{ theme_asset('assets/img/placeholder/placeholder-2-1.png') }}"
+                                     loading="lazy" alt="Placeholder" class="dark-support rounded w-100 h-100 object-fit-cover">
                             </div>
-                        </div>
-                    @else
-                        <div class="col-xl-3 d-none d-sm-block">
-                            {{-- Commented out side banner --}}
-                            {{-- @if($bannerTypeTopSideBanner)
-                                <a href="{{ $bannerTypeTopSideBanner['url'] }}">
-                                    <img alt="" class="dark-support rounded w-100"
-                                        src="{{ getStorageImages(path: $bannerTypeTopSideBanner['photo_full_url'], type:'banner', source: theme_asset('assets/img/top-side-banner-placeholder.png')) }}">
-                                </a>
-                            @else
-                                <img src="{{ theme_asset('assets/img/top-side-banner-placeholder.png') }}"
-                                     class="dark-support rounded w-100" alt="">
-                            @endif --}}
-                        </div>
-                    @endif
+                        @endif
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const bannerSwiper = document.querySelector('.banner-swiper');
+    if (!bannerSwiper) return;
+
+    // Count slides
+    const slideCount = bannerSwiper.querySelectorAll('.swiper-slide').length;
+
+    // Initialize Swiper
+    const swiper = new Swiper('.banner-swiper', {
+        loop: slideCount > 1,
+        autoplay: slideCount > 1 ? {
+            delay: 5000,
+            disableOnInteraction: false,
+        } : false,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.banner-nav-next',
+            prevEl: '.banner-nav-prev',
+        },
+        effect: 'slide',
+        speed: 600,
+        allowTouchMove: slideCount > 1,
+    });
+
+    // Hide navigation buttons if only one slide
+    if (slideCount <= 1) {
+        const prevBtn = document.querySelector('.banner-nav-prev');
+        const nextBtn = document.querySelector('.banner-nav-next');
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+    }
+});
+</script>

@@ -145,15 +145,4 @@
             </div>
         </div>
     </div>
-    @if($shopInfoArray['id'] != 0 && $shopInfoArray['bottom_banner'])
-        <div class="max-height-420px overflow-hidden d-flex align-items-center">
-            <img src="{{ getStorageImages(path: $shopInfoArray['bottom_banner_full_url'], type:'shop-banner') }}"
-                 class="dark-support rounded img-fit" alt="">
-        </div>
-    @elseif($shopInfoArray['id'] == 0 && $shopInfoArray['bottom_banner'])
-        <div class="max-height-420px overflow-hidden d-flex align-items-center">
-            <img src="{{ getStorageImages(path: $shopInfoArray['bottom_banner_full_url'], type:'shop-banner') }}"
-                 class="dark-support rounded img-fit" alt="">
-        </div>
-    @endif
 </div>

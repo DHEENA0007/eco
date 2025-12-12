@@ -16,22 +16,26 @@
 
     .amazon-categories-tags {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 8px;
         align-items: center;
         padding: 0 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
     .amazon-category-tag {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 6px 12px;
+        padding: 8px 16px;
         background: var(--bs-secondary-bg, #f0f2f5);
         border-radius: 20px;
         text-decoration: none;
         color: var(--bs-body-color, #333);
-        font-size: 13px;
+        font-size: 14px;
         transition: all 0.2s ease;
         white-space: nowrap;
         border: 1px solid transparent;
@@ -47,8 +51,8 @@
     }
 
     .category-tag-icon {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         object-fit: cover;
         border-radius: 50%;
         flex-shrink: 0;
@@ -58,43 +62,33 @@
     /* Dark Theme Specific Styles */
     [data-bs-theme="dark"] .amazon-horizontal-categories,
     .dark-theme .amazon-horizontal-categories {
-        background: var(--bs-dark, #1a1a1a);
-        border-bottom-color: var(--bs-border-color, #404040);
+        background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        border-bottom-color: #404040;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
     [data-bs-theme="dark"] .amazon-category-tag,
     .dark-theme .amazon-category-tag {
-        background: var(--bs-secondary-bg, #2d2d2d);
-        color: var(--bs-body-color, #e0e0e0);
-        border-color: transparent;
+        background: linear-gradient(135deg, #2d2d2d 0%, #1f1f1f 100%);
+        color: #e0e0e0;
+        border: 1px solid #404040;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
     [data-bs-theme="dark"] .amazon-category-tag:hover,
     .dark-theme .amazon-category-tag:hover {
-        background: var(--bs-tertiary-bg, #3d3d3d);
-        color: var(--bs-emphasis-color, #fff);
-        border-color: var(--bs-border-color, #505050);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, #404040 0%, #2d2d2d 100%);
+        color: #ffffff;
+        border-color: #606060;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 8px rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
     }
 
     [data-bs-theme="dark"] .category-tag-icon,
     .dark-theme .category-tag-icon {
-        background: var(--bs-secondary-bg, #2d2d2d);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    @media (max-width: 768px) {
-        .amazon-categories-tags {
-            overflow-x: auto;
-            flex-wrap: nowrap;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .amazon-categories-tags::-webkit-scrollbar {
-            display: none;
-        }
+        background: #1f1f1f;
+        border: 1px solid #404040;
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
     }
 </style>
 
@@ -105,7 +99,7 @@
                class="amazon-category-tag">
                 @if($category['icon'])
                     <img src="{{ getStorageImages(path: $category['icon_full_url'], type:'category') }}"
-                         alt="{{ $category['name'] }}" loading="lazy" class="category-tag-icon">
+                         alt="{{ $category['name'] }}" loading="lazy" class="category-tag-icon dark-support">
                 @endif
                 <span>{{ $category['name'] }}</span>
             </a>
