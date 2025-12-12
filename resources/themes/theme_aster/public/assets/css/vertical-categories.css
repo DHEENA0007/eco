@@ -1,0 +1,134 @@
+/*
+ * Vertical Categories Styling
+ */
+
+.vertical-categories {
+    background-color: var(--bs-light);
+    width: 100%;
+}
+
+.vertical-categories .container {
+    max-width: 100%;
+    padding: 0 40px;
+    margin: 0;
+    width: 100%;
+}
+
+.vertical-category-list {
+    margin: 0;
+    padding: 0;
+}
+
+.category-item a,
+.subcategory-item a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.category-item > a {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.subcategory-item > a {
+    font-size: 14px;
+}
+
+.sub-subcategory-list a {
+    font-size: 13px;
+}
+
+.hover-bg-primary-light:hover {
+    background-color: var(--primary-light) !important;
+    color: var(--bs-primary) !important;
+}
+
+.vertical-category-list .bi-chevron-down {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.category-item.active > a .bi-chevron-down,
+.subcategory-item.active > a .bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Subcategory collapse/expand */
+.subcategory-list,
+.sub-subcategory-list {
+    display: none;
+    animation: slideDown 0.3s ease;
+}
+
+.category-item.active > .subcategory-list,
+.subcategory-item.active > .sub-subcategory-list {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark mode support */
+body[theme="dark"] .vertical-categories {
+    background-color: #000000 !important;
+}
+
+body[theme="dark"] .vertical-categories .card {
+    background-color: #0a0a0a !important;
+    border-color: #333333 !important;
+}
+
+body[theme="dark"] .vertical-category-list a {
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .vertical-category-list a:hover {
+    background-color: #1a1a1a !important;
+    color: #FFC700 !important;
+}
+
+body[theme="dark"] .vertical-category-list .text-muted {
+    color: #DAA520 !important;
+}
+
+body[theme="dark"] .vertical-category-list .text-dark {
+    color: #FFD700 !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .vertical-categories .container {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .vertical-categories {
+        padding: 15px 0;
+    }
+
+    .vertical-categories .container {
+        padding: 0 15px;
+    }
+
+    .category-item > a {
+        font-size: 14px;
+    }
+
+    .subcategory-item > a {
+        font-size: 13px;
+    }
+
+    .sub-subcategory-list a {
+        font-size: 12px;
+    }
+}

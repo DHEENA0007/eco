@@ -1,0 +1,396 @@
+/*
+ * Color Scheme Override
+ * Light Mode: Black and White
+ * Dark Mode: Black and Gold
+ */
+
+/* Light Mode - Black and White */
+:root {
+    /* Primary colors - Black */
+    --bs-primary: #000000;
+    --bs-primary-rgb: 0, 0, 0;
+
+    /* Secondary colors - Dark Gray/Black */
+    --bs-secondary: #333333;
+    --bs-secondary-rgb: 51, 51, 51;
+
+    /* Darker shades */
+    --primary-dark: #000000;
+
+    /* Light backgrounds - White */
+    --primary-light: #ffffff;
+
+    /* Text colors */
+    --title-color: #000000;
+    --title-color-rgb: 0, 0, 0;
+    --bs-body-color: #333333;
+    --secondary-body-color: #666666;
+
+    /* Background colors */
+    --bs-light: #f5f5f5;
+    --bs-light-rgb: 245, 245, 245;
+    --absolute-dark: #000000;
+    --absolute-dark-rgb: 0, 0, 0;
+    --absolute-white: #ffffff;
+    --absolute-white-rgb: 255, 255, 255;
+
+    /* Page background */
+    --bs-body-bg-rgb: 255, 255, 255;
+    --bs-body-bg: #ffffff;
+
+    /* Borders */
+    --bs-border-rgb: 221, 221, 221;
+    --bs-border-color: #dddddd;
+
+    /* Badges */
+    --bg-badge: #e0e0e0;
+
+    /* Shadows */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    /* Dark variant */
+    --bs-dark-rgb: var(--title-color-rgb);
+    --bs-dark: var(--title-color);
+}
+
+/* Dark Mode - Black and Gold */
+body[theme="dark"] {
+    /* Primary colors - Gold */
+    --bs-primary: #FFD700 !important;
+    --bs-primary-rgb: 255, 215, 0 !important;
+
+    /* Secondary colors - Darker Gold */
+    --bs-secondary: #DAA520 !important;
+    --bs-secondary-rgb: 218, 165, 32 !important;
+
+    /* Text colors - Gold and White */
+    --bs-body-color: #FFD700 !important;
+    --title-color: #FFD700 !important;
+    --title-color-rgb: 255, 215, 0 !important;
+    --absolute-white: #FFD700 !important;
+    --secondary-body-color: #DAA520 !important;
+
+    /* Background colors - Black */
+    --bs-white: #000000 !important;
+    --bs-white-rgb: 0, 0, 0 !important;
+    --primary-light: #1a1a1a !important;
+    --input-bg: #0a0a0a !important;
+    --primary-dark: #B8860B !important;
+
+    /* Page background - Pure Black */
+    --bs-body-bg-rgb: 0, 0, 0 !important;
+    --bs-body-bg: #000000 !important;
+
+    /* Light backgrounds in dark mode */
+    --bs-light: #1a1a1a !important;
+    --bs-light-rgb: 26, 26, 26 !important;
+
+    /* Borders - Dark Gray */
+    --bs-border-rgb: 51, 51, 51 !important;
+    --bs-border-color: #333333 !important;
+
+    /* Badges */
+    --bg-badge: #2a2a2a !important;
+
+    /* Shadows - Gold glow */
+    --shadow-color: rgba(255, 215, 0, 0.1) !important;
+    --box-shadow: 0 2px 10px rgba(255, 215, 0, 0.15) !important;
+
+    /* Dark variant */
+    --bs-dark-rgb: 255, 215, 0 !important;
+    --bs-dark: #FFD700 !important;
+
+    /* Absolute colors */
+    --absolute-dark: #FFD700 !important;
+    --absolute-dark-rgb: 255, 215, 0 !important;
+}
+
+/* Button overrides for light mode */
+.btn-primary {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #333333 !important;
+    border-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+.btn-outline-primary {
+    color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary {
+    background-color: #333333 !important;
+    border-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+/* Button overrides for dark mode */
+body[theme="dark"] .btn-primary {
+    background-color: #FFD700 !important;
+    border-color: #FFD700 !important;
+    color: #000000 !important;
+}
+
+body[theme="dark"] .btn-primary:hover,
+body[theme="dark"] .btn-primary:focus,
+body[theme="dark"] .btn-primary:active {
+    background-color: #FFC700 !important;
+    border-color: #FFC700 !important;
+    color: #000000 !important;
+}
+
+body[theme="dark"] .btn-outline-primary {
+    color: #FFD700 !important;
+    border-color: #FFD700 !important;
+}
+
+body[theme="dark"] .btn-outline-primary:hover,
+body[theme="dark"] .btn-outline-primary:focus,
+body[theme="dark"] .btn-outline-primary:active {
+    background-color: #FFD700 !important;
+    border-color: #FFD700 !important;
+    color: #000000 !important;
+}
+
+body[theme="dark"] .btn-secondary {
+    background-color: #DAA520 !important;
+    border-color: #DAA520 !important;
+    color: #000000 !important;
+}
+
+/* Background utilities */
+.bg-primary {
+    background-color: #000000 !important;
+}
+
+body[theme="dark"] .bg-primary {
+    background-color: #FFD700 !important;
+}
+
+/* Text utilities */
+.text-primary {
+    color: #000000 !important;
+}
+
+body[theme="dark"] .text-primary {
+    color: #FFD700 !important;
+}
+
+/* Border utilities */
+.border-primary {
+    border-color: #000000 !important;
+}
+
+body[theme="dark"] .border-primary {
+    border-color: #FFD700 !important;
+}
+
+/* Links */
+a {
+    color: #000000;
+}
+
+a:hover {
+    color: #333333;
+}
+
+body[theme="dark"] a {
+    color: #FFD700;
+}
+
+body[theme="dark"] a:hover {
+    color: #FFC700;
+}
+
+/* Cards and containers */
+.card {
+    background-color: #ffffff;
+    border-color: #dddddd;
+}
+
+body[theme="dark"] .card {
+    background-color: #000000;
+    border-color: #333333;
+}
+
+/* Input fields */
+input,
+textarea,
+select {
+    background-color: #ffffff !important;
+    border-color: #dddddd !important;
+    color: #000000 !important;
+}
+
+body[theme="dark"] input,
+body[theme="dark"] textarea,
+body[theme="dark"] select {
+    background-color: #0a0a0a !important;
+    border-color: #333333 !important;
+    color: #FFD700 !important;
+}
+
+/* Badges */
+.badge {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+body[theme="dark"] .badge {
+    background-color: #2a2a2a;
+    color: #FFD700;
+}
+
+/* Alerts */
+.alert-primary {
+    background-color: #f0f0f0;
+    border-color: #000000;
+    color: #000000;
+}
+
+body[theme="dark"] .alert-primary {
+    background-color: #1a1a1a;
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+/* Navigation menu layout */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu li {
+    margin-right: 20px;
+}
+
+.nav-menu li:last-child {
+    margin-right: 0;
+}
+
+/* Additional Dark Mode Overrides */
+body[theme="dark"] {
+    background-color: #000000 !important;
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] h1,
+body[theme="dark"] h2,
+body[theme="dark"] h3,
+body[theme="dark"] h4,
+body[theme="dark"] h5,
+body[theme="dark"] h6 {
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] p,
+body[theme="dark"] span,
+body[theme="dark"] div {
+    color: #FFD700;
+}
+
+body[theme="dark"] .bg-white {
+    background-color: #000000 !important;
+}
+
+body[theme="dark"] .text-dark {
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .text-muted {
+    color: #DAA520 !important;
+}
+
+body[theme="dark"] .btn-light {
+    background-color: #1a1a1a !important;
+    border-color: #333333 !important;
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .btn-light:hover {
+    background-color: #2a2a2a !important;
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .navbar,
+body[theme="dark"] .header {
+    background-color: #000000 !important;
+}
+
+body[theme="dark"] .footer {
+    background-color: #000000 !important;
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .dropdown-menu {
+    background-color: #0a0a0a !important;
+    border-color: #333333 !important;
+}
+
+body[theme="dark"] .dropdown-item {
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .dropdown-item:hover {
+    background-color: #1a1a1a !important;
+    color: #FFC700 !important;
+}
+
+body[theme="dark"] .modal-content {
+    background-color: #000000 !important;
+    border-color: #333333 !important;
+}
+
+body[theme="dark"] .modal-header,
+body[theme="dark"] .modal-footer {
+    border-color: #333333 !important;
+}
+
+body[theme="dark"] .table {
+    color: #FFD700 !important;
+}
+
+body[theme="dark"] .table thead th {
+    background-color: #1a1a1a !important;
+    color: #FFD700 !important;
+    border-color: #333333 !important;
+}
+
+body[theme="dark"] .table td,
+body[theme="dark"] .table th {
+    border-color: #333333 !important;
+}
+
+body[theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #0a0a0a !important;
+}
+
+body[theme="dark"] input::placeholder,
+body[theme="dark"] textarea::placeholder {
+    color: #DAA520 !important;
+}
+
+body[theme="dark"] .form-control:focus {
+    border-color: #FFD700 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25) !important;
+}
