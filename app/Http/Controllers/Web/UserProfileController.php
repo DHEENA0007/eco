@@ -107,10 +107,15 @@ class UserProfileController extends Controller
         $default_location = getWebConfig(name: 'default_location');
 
         $countries = $country_restrict_status ? $this->get_delivery_country_array() : COUNTRIES;
-
         $zip_codes = $zip_restrict_status ? DeliveryZipCode::all() : 0;
 
-        return view(VIEW_FILE_NAMES['account_address_add'], compact('countries', 'zip_restrict_status', 'zip_codes', 'default_location'));
+        // Get user's stored pincode if authenticated
+        $user_pincode = null;
+        if (auth('customer')->check()) {
+            $user_pincode = auth('customer')->user()->pincode;
+        }
+
+        return view(VIEW_FILE_NAMES['account_address_add'], compact('countries', 'zip_restrict_status', 'zip_codes', 'default_location', 'user_pincode'));
     }
 
     public function account_delete($id)
@@ -234,6 +239,12 @@ class UserProfileController extends Controller
         $delivery_countries = $country_restrict_status ? self::get_delivery_country_array() : COUNTRIES;
         $delivery_zipcodes = $zip_restrict_status ? DeliveryZipCode::all() : 0;
 
+        // Get user's stored pincode if authenticated
+        $user_pincode = null;
+        if (auth('customer')->check()) {
+            $user_pincode = auth('customer')->user()->pincode;
+        }
+
         $countriesName = [];
         $countriesCode = [];
         foreach ($delivery_countries as $country) {
@@ -242,7 +253,7 @@ class UserProfileController extends Controller
         }
 
         if (isset($shippingAddress)) {
-            return view(VIEW_FILE_NAMES['account_address_edit'], compact('shippingAddress', 'country_restrict_status', 'zip_restrict_status', 'delivery_countries', 'delivery_zipcodes', 'countriesName', 'countriesCode'));
+            return view(VIEW_FILE_NAMES['account_address_edit'], compact('shippingAddress', 'country_restrict_status', 'zip_restrict_status', 'delivery_countries', 'delivery_zipcodes', 'countriesName', 'countriesCode', 'user_pincode'));
         } else {
             Toastr::warning(translate('access_denied'));
             return back();

@@ -20,6 +20,21 @@
                     </div>
                 </div>
             </div>
+            <!-- Location Indicator (if pincode is set) -->
+            @if(isset($userPincode) && $userPincode)
+            <div class="alert alert-info d-flex align-items-center justify-content-between mb-3" role="alert">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                    <div>
+                        <strong>{{ translate('showing_brands_for_pincode') }}: {{ $userPincode }}</strong>
+                    </div>
+                </div>
+                <a href="{{ route('account-address-add') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-pencil-square me-1"></i>{{ translate('change_location') }}
+                </a>
+            </div>
+            @endif
+
             <!-- Enhanced Header Section -->
             <div class="card mb-3">
                 <div class="card-body">

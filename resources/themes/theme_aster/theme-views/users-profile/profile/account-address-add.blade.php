@@ -84,13 +84,19 @@
                                                     <select name="zip" class="form-control select2 select_picker"
                                                             data-live-search="true" required>
                                                         @foreach($zip_codes as $code)
-                                                            <option
-                                                                value="{{ $code->zipcode }}">{{ $code->zipcode }}</option>
+                                                            <option value="{{ $code->zipcode }}" 
+                                                                {{ $user_pincode == $code->zipcode ? 'selected' : '' }}>
+                                                                {{ $code->zipcode }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 @else
                                                     <input class="form-control" type="text" id="zip" name="zip"
-                                                           required>
+                                                           value="{{ $user_pincode ?? '' }}"
+                                                           placeholder="{{translate('enter_6_digit_pincode')}}" required>
+                                                @endif
+                                                @if($user_pincode)
+                                                    <small class="text-muted">{{translate('pre_filled_from_your_profile')}}</small>
                                                 @endif
                                             </div>
                                         </div>

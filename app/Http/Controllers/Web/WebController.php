@@ -152,17 +152,42 @@ class WebController extends Controller
         $brandStatus = getWebConfig(name: 'product_brand');
         session()->put('product_brand', $brandStatus);
         if ($brandStatus == 1) {
+            // Get user's pincode for location-based filtering
+            $userPincode = null;
+            if (auth('customer')->check()) {
+                $userPincode = auth('customer')->user()->pincode;
+            }
+            // Also check session fallback
+            if (!$userPincode) {
+                $userPincode = session('user_pincode');
+            }
+
             $brandList = Brand::active()->with(['brandProducts' => function ($query) {
                 return $query->withCount(['orderDetails']);
             }])
                 ->withCount('brandProducts')
                 ->when($request->has('search'), function ($query) use ($request) {
                     $query->where('name', 'LIKE', '%' . $request['search'] . '%');
+                })
+                ->when($userPincode, function ($query) use ($userPincode) {
+                    // Filter brands that have products in shops matching user's pincode
+                    $query->whereHas('brandProducts', function ($productQuery) use ($userPincode) {
+                        $productQuery->whereHas('seller', function ($sellerQuery) use ($userPincode) {
+                            $sellerQuery->whereHas('shop', function ($shopQuery) use ($userPincode) {
+                                $shopQuery->where(function ($q) use ($userPincode) {
+                                    $q->where('pincode', $userPincode)
+                                      ->orWhereNull('pincode') // Include shops without pincode for fallback
+                                      ->orWhere('pincode', ''); // Include shops with empty pincode
+                                });
+                            });
+                        });
+                    });
                 });
 
             return view(VIEW_FILE_NAMES['all_brands'], [
                 'brands' => self::getPriorityWiseBrandProductsQuery(request: $request, query: $brandList),
-                'robotsMetaContentData' => $robotsMetaContentData
+                'robotsMetaContentData' => $robotsMetaContentData,
+                'userPincode' => $userPincode
             ]);
         } else {
             return redirect()->route('home');
@@ -216,6 +241,16 @@ class WebController extends Controller
             return back();
         }
 
+        // Get user's pincode for location-based filtering
+        $userPincode = null;
+        if (auth('customer')->check()) {
+            $userPincode = auth('customer')->user()->pincode;
+        }
+        // Also check session and localStorage fallback
+        if (!$userPincode) {
+            $userPincode = session('user_pincode');
+        }
+
         $vendorsList = Shop::active()
             ->withCount(['products' => function ($query) {
                 $query->active();
@@ -226,6 +261,14 @@ class WebController extends Controller
                     foreach ($key as $value) {
                         $q->orWhere('name', 'like', "%{$value}%");
                     }
+                });
+            })
+            ->when($userPincode, function ($query) use ($userPincode) {
+                // Filter shops by user's pincode
+                return $query->where(function ($q) use ($userPincode) {
+                    $q->where('pincode', $userPincode)
+                      ->orWhereNull('pincode') // Include shops without pincode for fallback
+                      ->orWhere('pincode', ''); // Include shops with empty pincode
                 });
             })
             ->with('seller', function ($query) {
@@ -306,6 +349,8 @@ class WebController extends Controller
             'vendorsList' => $vendorsList->paginate(12)->appends($request->all()),
             'order_by' => $request['order_by'],
             'robotsMetaContentData' => $robotsMetaContentData,
+            'userPincode' => $userPincode,
+            'filteredByLocation' => $userPincode ? true : false,
         ]);
     }
 

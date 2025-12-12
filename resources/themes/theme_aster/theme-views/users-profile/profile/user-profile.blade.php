@@ -162,6 +162,20 @@
 
                                             <dt class="pe-1 text-capitalize">{{translate('last_name')}}</dt>
                                             <dd>{{$customer_detail['l_name']}}</dd>
+
+                                            <dt class="pe-1 text-capitalize">{{translate('pincode')}}</dt>
+                                            <dd class="d-flex align-items-center gap-2">
+                                                <span id="user-pincode">{{$customer_detail['pincode'] ?? translate('not_set')}}</span>
+                                                @if($customer_detail['pincode'])
+                                                    <button class="btn btn-sm btn-outline-secondary p-1" onclick="editPincode()" title="{{translate('edit_pincode')}}">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-sm btn-primary px-2 py-1" onclick="editPincode()" title="{{translate('add_pincode')}}">
+                                                        <i class="bi bi-plus me-1"></i>{{translate('add')}}
+                                                    </button>
+                                                @endif
+                                            </dd>
                                         </dl>
                                     </div>
                                     <div class="col-md-6 col-xl-6 col-lg-6">
@@ -287,4 +301,125 @@
             </div>
         </div>
     </main>
+
+    <!-- Edit Pincode Modal -->
+    <div class="modal fade" id="editPincodeModal" tabindex="-1" aria-labelledby="editPincodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPincodeModalLabel">
+                        <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                        {{translate('update_pincode')}}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editPincodeForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editPincode" class="form-label">{{translate('enter_new_pincode')}}</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-geo-alt"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-lg" id="editPincode" name="pincode"
+                                       placeholder="{{translate('enter_6_digit_pincode')}}"
+                                       pattern="[0-9]{6}" maxlength="6" required>
+                            </div>
+                            <div class="form-text">{{translate('e.g. 110001, 400001, 600001')}}</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{translate('cancel')}}</button>
+                        <button type="submit" class="btn btn-primary">{{translate('update_pincode')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
 @endsection
+
+@section('script')
+    <script>
+        'use strict';
+        
+        function editPincode() {
+            const currentPincode = document.getElementById('user-pincode').textContent.trim();
+            const input = document.getElementById('editPincode');
+            
+            // Pre-fill current pincode if it exists and is not "not_set"
+            if (currentPincode && currentPincode !== '{{translate('not_set')}}') {
+                input.value = currentPincode;
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('editPincodeModal'));
+            modal.show();
+            
+            // Focus on input after modal is shown
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 300);
+        }
+        
+        // Handle pincode form submission
+        document.getElementById('editPincodeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const pincode = document.getElementById('editPincode').value.trim();
+            
+            if (!/^\d{6}$/.test(pincode)) {
+                toastr.error('{{translate('please_enter_valid_6_digit_pincode')}}');
+                return;
+            }
+            
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>{{translate('updating')}}...';
+            
+            fetch('/customer/save-location', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ pincode: pincode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('user-pincode').textContent = pincode;
+                    toastr.success('{{translate('pincode_updated_successfully')}}');
+                    bootstrap.Modal.getInstance(document.getElementById('editPincodeModal')).hide();
+                    
+                    // Update button visibility
+                    const pincodeContainer = document.getElementById('user-pincode').parentElement;
+                    const existingBtn = pincodeContainer.querySelector('button');
+                    
+                    if (existingBtn && existingBtn.textContent.includes('{{translate('add')}}')) {
+                        // Replace "Add" button with "Edit" button
+                        existingBtn.outerHTML = `
+                            <button class="btn btn-sm btn-outline-secondary p-1" onclick="editPincode()" title="{{translate('edit_pincode')}}">
+                                <i class="bi bi-pencil"></i>
+                            </button>`;
+                    }
+                    
+                    // Store in localStorage for location service
+                    localStorage.setItem('user_pincode', pincode);
+                    
+                } else {
+                    toastr.error(data.message || '{{translate('failed_to_update_pincode')}}');
+                }
+            })
+            .catch(error => {
+                toastr.error('{{translate('something_went_wrong')}}');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        });
+    </script>

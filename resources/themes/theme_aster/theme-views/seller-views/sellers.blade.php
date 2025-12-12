@@ -60,6 +60,33 @@
                 </div>
             </div>
 
+            <!-- Location Filter Indicator -->
+            @if($userPincode)
+                <div class="alert alert-info border-0 mb-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-geo-alt-fill text-primary"></i>
+                            <span class="fw-semibold">{{ translate('showing_stores_for_pincode') }}: {{ $userPincode }}</span>
+                        </div>
+                        <a href="{{ route('account-address-add') }}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> {{ translate('change') }}
+                        </a>
+                    </div>
+                </div>
+            @else
+                <div class="alert alert-warning border-0 mb-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-geo-alt text-warning"></i>
+                            <span>{{ translate('showing_all_stores_set_location_for_better_results') }}</span>
+                        </div>
+                        <a href="{{ route('account-address-add') }}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-geo-alt-fill"></i> {{ translate('set_location') }}
+                        </a>
+                    </div>
+                </div>
+            @endif
+
             <!-- Filters Section -->
             <div class="card mb-3">
                 <div class="card-body">
@@ -90,13 +117,15 @@
             <div class="card">
                 <div class="card-body">
                     @if(count($vendorsList) > 0)
-                        <div class="auto-col xxl-items-4 xl-items-3 lg-items-3 md-items-2 justify-content-center gap-3 max-sm-grid-col-1">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
                             @foreach ($vendorsList as $vendor)
                                 @php($currentDate = date('Y-m-d'))
                                 @php($startDate = date('Y-m-d', strtotime($vendor['vacation_start_date'])))
                                 @php($endDate = date('Y-m-d', strtotime($vendor['vacation_end_date'])))
 
+                                <div class="col">
                                 <div class="store-card border rounded-3 overflow-hidden shadow-sm hover-shadow h-100 d-flex flex-column" style="transition: transform 0.2s; background: linear-gradient(135deg, var(--bs-light) 0%, var(--bs-body-bg) 100%);">
+
                                     <div class="position-relative">
                                         <!-- Store Banner -->
                                         <a href="{{route('shopView',['id' => $vendor['id']])}}" class="d-block">
@@ -146,6 +175,7 @@
                                         <!-- View Store Button -->
                                         <a href="{{route('shopView',['id' => $vendor['id']])}}" class="btn btn-outline-primary btn-sm mt-auto fw-bold">{{ translate('view_store') }}</a>
                                     </div>
+                                </div>
                                 </div>
                             @endforeach
                         </div>
